@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop.DataAccess.Data;
+using Shop.DataAccess.Repository;
 using Shop.Models;
 
 
@@ -7,14 +8,14 @@ namespace WebShop.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly UnitOfWork unitOfWork;
         public CategoryController(ApplicationDbContext dbContext)
         {
-                _dbContext = dbContext;
+                unitOfWork = new UnitOfWork(dbContext);
         }
         public IActionResult Index()
         {
-            List<Category> categories = _dbContext.Categories.ToList();
+            List<Category> categories = unitOfWork.Categories.GetAll().ToList();
             return View(categories);
         }
         public IActionResult Create()
@@ -25,20 +26,20 @@ namespace WebShop.Controllers
         public IActionResult Create(Category obj)
         {
             if (ModelState.IsValid) { 
-                _dbContext.Categories.Add(obj);
-                _dbContext.SaveChanges();
+                unitOfWork.Categories.Add(obj);
+                unitOfWork.Complete();
                 TempData["failure"] = "Category created successfully";
                 return RedirectToAction("Index");
             }
             TempData["failure"] = "Wrong field data! Try again";
             return View();
         }
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
             if (id==null || id == 0){
                 return NotFound();
             }
-            Category? categoryFromDb = _dbContext.Categories.Find(id);
+            Category? categoryFromDb = unitOfWork.Categories.Get(id);
             if (categoryFromDb == null)
             {
                 return NotFound();
@@ -50,21 +51,21 @@ namespace WebShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dbContext.Categories.Update(obj);
-                _dbContext.SaveChanges();
+                unitOfWork.Categories.Update(obj);
+                unitOfWork.Complete();
                 TempData["success"] = "Category edited successfully";
                 return RedirectToAction("Index");
             }
             TempData["failure"] = "Wrong field data! Try again";
             return View();
         }
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(int id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Category? categoryFromDb = _dbContext.Categories.Find(id);
+            Category? categoryFromDb = unitOfWork.Categories.Get(id);
             if (categoryFromDb == null)
             {
                 return NotFound();
@@ -75,8 +76,8 @@ namespace WebShop.Controllers
         [HttpPost]
         public IActionResult Delete(Category obj)
         {
-            _dbContext.Categories.Remove(obj);
-            _dbContext.SaveChanges();
+            unitOfWork.Categories.Delete(obj);
+            unitOfWork.Complete();
             TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
         }
