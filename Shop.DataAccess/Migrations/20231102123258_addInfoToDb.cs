@@ -7,13 +7,13 @@
 namespace Shop.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDataToDb : Migration
+    public partial class addInfoToDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Category",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -23,11 +23,11 @@ namespace Shop.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_Category", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Product",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -40,17 +40,17 @@ namespace Shop.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Product", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
+                        name: "FK_Product_Category_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Categories",
+                table: "Category",
                 columns: new[] { "Id", "DisplayOrder", "Name" },
                 values: new object[,]
                 {
@@ -62,22 +62,18 @@ namespace Shop.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Products",
+                table: "Product",
                 columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, 1, "Description1", "images/product/1.jpg", "Product1", 1 },
-                    { 2, 2, "Description2", "images/product/2.jpg", "Product2", 2 },
-                    { 3, 3, "Description3", "images/product/3.jpg", "Product3", 3 },
-                    { 4, 4, "Description4", "images/product/4.jpg", "Product4", 4 },
-                    { 5, 1, "Description5", "images/product/5.jpg", "Product5", 5 },
-                    { 6, 2, "Description6", "images/product/6.jpg", "Product6", 6 },
-                    { 7, 5, "Description7", "images/product/7.jpg", "Product7", 7 }
+                    { 1, 1, "Description1", "~/images/product/1.jpg", "Product1", 100 },
+                    { 2, 2, "Description2", "~/images/product/1.jpg", "Product2", 100 },
+                    { 3, 3, "Description3", "~/images/product/1.jpg", "Product3", 100 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryId",
-                table: "Products",
+                name: "IX_Product_CategoryId",
+                table: "Product",
                 column: "CategoryId");
         }
 
@@ -85,10 +81,10 @@ namespace Shop.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Product");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Category");
         }
     }
 }

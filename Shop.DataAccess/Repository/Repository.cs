@@ -29,16 +29,34 @@ namespace Shop.DataAccess.Repository
 
         public T Find(Expression<Func<T, bool>> predicate, string? includeProperties = null)
         {
-            return _context.Set<T>().Where(predicate).First();
+            IQueryable<T> dbSet = _context.Set<T>();
+            foreach (var property in parseIncludeProperties(includeProperties))
+            {
+                dbSet = _context.Set<T>().Include<T>(property);
+            }
+            return dbSet.Where(predicate).First();
         }
 
         public IEnumerable<T> GetAll(string? includeProperties = null)
         {
-            return _context.Set<T>().ToList();
+            IQueryable<T> dbSet = _context.Set<T>();
+            foreach (var property in parseIncludeProperties(includeProperties))
+            {
+                dbSet = _context.Set<T>().Include<T>(property);
+            }
+            return dbSet.ToList();
         }
         public void Update(T obj)
         {
             _context.Set<T>().Update(obj);
+        }
+        private IEnumerable<string> parseIncludeProperties(string? includeProperties)
+        {
+            if (includeProperties == null)
+            {
+                return Enumerable.Empty<string>();
+            }
+            return includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 

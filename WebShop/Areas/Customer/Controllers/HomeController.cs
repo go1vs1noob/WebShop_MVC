@@ -25,7 +25,7 @@ namespace WebShop.Areas.Customer.Controllers
         public IActionResult Details(int? id)
         {
             Product product = _unitOfWork.Products.Find(u => u.Id == id, includeProperties: "Category");
-            return View();
+            return View(product);
         }
 
         public IActionResult Privacy()

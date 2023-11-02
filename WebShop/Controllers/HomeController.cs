@@ -1,23 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Shop.Models;
+using Shop.DataAccess.Repository;
 
 namespace WebShop.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IUnitOfWork _unitOfWork;
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-
+        public IActionResult Details(int? id)
+        {
+            return View(_unitOfWork.Products.Find(u => u.Id == id, includeProperties: "Category"));
+        }
         public IActionResult Privacy()
         {
             return View();
