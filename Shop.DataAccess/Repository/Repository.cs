@@ -27,16 +27,12 @@ namespace Shop.DataAccess.Repository
             _context.Set<T>().Remove(obj);
         }
 
-        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
+        public T Find(Expression<Func<T, bool>> predicate, string? includeProperties = null)
         {
-            return _context.Set<T>().Where(predicate);
+            return _context.Set<T>().Where(predicate).First();
         }
 
-        public T Get(int id)
-        {
-            return _context.Set<T>().Find(id);
-        }
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             return _context.Set<T>().ToList();
         }
@@ -45,4 +41,5 @@ namespace Shop.DataAccess.Repository
             _context.Set<T>().Update(obj);
         }
     }
+
 }

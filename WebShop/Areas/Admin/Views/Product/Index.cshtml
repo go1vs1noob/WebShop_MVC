@@ -1,0 +1,31 @@
+﻿@model List<Product>
+<partial name="_Notification" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="text-primary">Product List</h2>
+        </div>
+        <div class="col-md-6 text-end">
+            <a class="btn btn-primary" asp-area="Admin" asp-controller="Product" asp-action="Create">
+                Create
+            </a>
+        </div>
+    </div>
+    <table id="productTable" class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="~/js/productDataTable.js"></script>
+}
