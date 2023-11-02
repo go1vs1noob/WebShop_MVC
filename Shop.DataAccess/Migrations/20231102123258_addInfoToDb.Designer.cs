@@ -11,8 +11,8 @@ using Shop.DataAccess.Data;
 namespace Shop.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231102090415_AddDataToDb")]
-    partial class AddDataToDb
+    [Migration("20231102123258_addInfoToDb")]
+    partial class addInfoToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace Shop.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
 
                     b.HasData(
                         new
@@ -108,7 +108,7 @@ namespace Shop.DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Product");
 
                     b.HasData(
                         new
@@ -116,63 +116,27 @@ namespace Shop.DataAccess.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Description = "Description1",
-                            ImageUrl = "images/product/1.jpg",
+                            ImageUrl = "~/images/product/1.jpg",
                             Name = "Product1",
-                            Price = 1
+                            Price = 100
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 2,
                             Description = "Description2",
-                            ImageUrl = "images/product/2.jpg",
+                            ImageUrl = "~/images/product/1.jpg",
                             Name = "Product2",
-                            Price = 2
+                            Price = 100
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 3,
                             Description = "Description3",
-                            ImageUrl = "images/product/3.jpg",
+                            ImageUrl = "~/images/product/1.jpg",
                             Name = "Product3",
-                            Price = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryId = 4,
-                            Description = "Description4",
-                            ImageUrl = "images/product/4.jpg",
-                            Name = "Product4",
-                            Price = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CategoryId = 1,
-                            Description = "Description5",
-                            ImageUrl = "images/product/5.jpg",
-                            Name = "Product5",
-                            Price = 5
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CategoryId = 2,
-                            Description = "Description6",
-                            ImageUrl = "images/product/6.jpg",
-                            Name = "Product6",
-                            Price = 6
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CategoryId = 5,
-                            Description = "Description7",
-                            ImageUrl = "images/product/7.jpg",
-                            Name = "Product7",
-                            Price = 7
+                            Price = 100
                         });
                 });
 

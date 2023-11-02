@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Shop.DataAccess.Data;
+using Shop.DataAccess.Repository;
 
 namespace WebShop
 {
@@ -14,6 +15,7 @@ namespace WebShop
             builder.Services.AddDbContext<ApplicationDbContext>
                 (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -33,7 +35,7 @@ namespace WebShop
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }
