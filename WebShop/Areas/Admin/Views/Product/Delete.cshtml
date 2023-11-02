@@ -1,0 +1,47 @@
+﻿@model ProductVM
+<div class="container">
+    <form method="post">
+        <input asp-for="@Model.Product.Id" type="hidden"/>
+        <div class="row" enctype="multipart/form-data">
+            <label asp-for="@Model.Product.Name" class="form-label"></label>
+            <input disabled asp-for="@Model.Product.Name" class="form-control " /> <!-- type="..." is not required with asp-for -->
+        </div>
+        <div class="row">
+            <label asp-for="@Model.Product.Price" class="form-label"></label>
+            <input disabled asp-for="@Model.Product.Price" class="form-control " />
+        </div>
+        <div class="row">
+            <label asp-for="@Model.Product.Description" class="form-label"></label>
+            <input disabled asp-for="@Model.Product.Description" class="form-control " />
+        </div>
+        <div class="row">
+            <label asp-for="@Model.Product.CategoryId" class="form-label"></label>
+            <select disabled asp-for="@Model.Product.CategoryId" asp-items="@Model.CategoryList" class="">
+                <option disabled disabled selected>Select Category</option>
+            </select>
+        </div>
+        <div class="row">
+            <label asp-for="@Model.Product.ImageUrl" class="form-label"></label>
+            <input type="file" disabled asp-for="@Model.Product.ImageUrl" class="form-control " />
+        </div>
+        <div class="row mt-2">
+            <div class="col-6">
+                <button type="submit" class="btn btn-primary form-control">
+                    Delete
+                </button>
+            </div>
+            <div class="col-6 text-end">
+                <a class="btn btn-secondary" asp-area="Admin" asp-controller="Product" asp-action="Index">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

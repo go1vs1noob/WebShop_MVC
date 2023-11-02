@@ -11,9 +11,8 @@ namespace Shop.DataAccess.Repository.IRepository
     {
         void Add(T obj);
         void Delete(T obj);
-        T Get(int id);
-        IEnumerable<T> GetAll();
-        IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
+        IEnumerable<T> GetAll(string? includeProperties = null);
+        T Find(Expression<Func<T, bool>> predicate, string? includeProperties = null);
         void Update(T obj);
     }
 }

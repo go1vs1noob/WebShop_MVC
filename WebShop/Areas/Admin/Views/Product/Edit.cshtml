@@ -1,0 +1,61 @@
+﻿@model ProductVM
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="@Model.Product.Id" />
+        <input type="hidden" asp-for="@Model.Product.ImageUrl" />
+        <div class="row">
+            <label asp-for="@Model.Product.Name" class="form-label"></label>
+            <input asp-for="@Model.Product.Name" class="form-control" /> <!-- type="..." is not required with asp-for -->
+            <span asp-validation-for="@Model.Product.Name"></span>
+        </div>
+        <div class="row">
+            <label asp-for="@Model.Product.Price" class="form-label"></label>
+            <input asp-for="@Model.Product.Price" class="form-control" />
+            <span asp-validation-for="@Model.Product.Price"></span>
+        </div>
+        <div class="row">
+            <label asp-for="@Model.Product.Description" class="form-label"></label>
+            <textarea asp-for="@Model.Product.Description" class="form-control"></textarea>
+            @* <span asp-validation-for="@Model.Product.Description"></span> *@
+        </div>
+        <div class="row">
+            <label asp-for="@Model.Product.CategoryId" class="form-label"></label>
+            <select asp-for="@Model.Product.CategoryId" asp-items="@Model.CategoryList">
+                <option disabled selected>Select Category</option>
+            </select>
+            <span asp-validation-for="@Model.Product.CategoryId"></span>
+        </div>
+        <div class="row">
+            <label asp-for="@Model.Product.ImageUrl" class="form-label"></label>
+            <input type="file" name="file"  class="form-control" />
+           @*  <span asp-validation-for="@Model.Product.ImageUrl"></span> *@
+        </div>
+        <div class="row">
+            <img src="~/@Model.Product.ImageUrl" class="img-thumbnail w-50 h-50"/>
+        </div>
+
+
+        <div class="row mt-2">
+            <div class="col-6">
+                <button type="submit" class="btn btn-primary form-control">
+                    Edit
+                </button>
+            </div>
+            <div class="col-6 text-end">
+                <a class="btn btn-secondary" asp-area="Admin" asp-controller="Product" asp-action="Index">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+
+    @{
+        <partial name="_tinyMceTextArea" />
+        <partial name="_ValidationScriptsPartial" />
+        
+    }
+}
