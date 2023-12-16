@@ -1,0 +1,56 @@
+﻿@model Company
+<div class="container">
+    <form method="post">
+        <input type="hidden" asp-for="@Model.Id" />
+        <div class="row">
+            <label asp-for="@Model.Name" class="form-label"></label>
+            <input disabled asp-for="@Model.Name" class="form-control" /> <!-- type="..." is not required with asp-for -->
+        </div>
+
+        <div class="row">
+            <label asp-for="@Model.StreetAddress" class="form-label"></label>
+            <input disabled asp-for="@Model.StreetAddress" class="form-control"></input>
+        </div>
+
+        <div class="row">
+            <label asp-for="@Model.City" class="form-label"></label>
+            <input disabled asp-for="@Model.City" class="form-control"></input>
+        </div>
+        <div class="row">
+            <label asp-for="@Model.State" class="form-label"></label>
+            <input disabled asp-for="@Model.State" class="form-control"></input>
+        </div>
+        <div class="row">
+            <label asp-for="@Model.PostalCode" class="form-label"></label>
+            <input disabled asp-for="@Model.PostalCode" class="form-control"></input>
+        </div>
+        <div class="row">
+            <label asp-for="@Model.PhoneNumber" class="form-label"></label>
+            <input disabled asp-for="@Model.PhoneNumber" class="form-control"></input>
+            <span asp-validation-for="@Model.PhoneNumber"></span>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-6">
+                <button type="submit" class="btn btn-primary form-control">
+                    Delete
+                </button>
+            </div>
+            <div class="col-6 text-end">
+                <a class="btn btn-secondary" asp-area="Admin" asp-controller="Company" asp-action="Index">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+
+    @{
+        <partial name="_tinyMceTextArea" />
+        <partial name="_ValidationScriptsPartial" />
+
+    }
+}
