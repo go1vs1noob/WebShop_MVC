@@ -2,10 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Shop.Models;
 using Shop.DataAccess.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Shop.Utility;
+using System.Security.Claims;
 
 namespace WebShop.Areas.Customer.Controllers
 {
     [Area("Customer")]
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -22,10 +26,37 @@ namespace WebShop.Areas.Customer.Controllers
             return View(products);
         }
 
-        public IActionResult Details(int? id)
+        public IActionResult Details(int productId)
         {
-            Product product = _unitOfWork.Products.Find(u => u.Id == id, includeProperties: "Category");
-            return View(product);
+            ShoppingCart shoppingCart = new ShoppingCart()
+            {
+                Product = _unitOfWork.Products
+                .Find(u => u.Id == productId, includeProperties: "Category"),
+                ProductId = productId
+            };
+            return View(shoppingCart);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart shoppingCart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            shoppingCart.ApplicationUserId = userId;
+
+            var foundCart = _unitOfWork.ShoppingCarts.Find(cart => cart.ApplicationUserId == userId
+                                                           && cart.ProductId == shoppingCart.ProductId);
+            if (foundCart == null)
+            {
+                _unitOfWork.ShoppingCarts.Add(shoppingCart);
+            } else
+            {
+                foundCart.Count += shoppingCart.Count;
+            }
+            _unitOfWork.Complete();
+            TempData["success"] = "Shopping cart updated successfuly!";
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

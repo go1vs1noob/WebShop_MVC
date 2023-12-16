@@ -34,7 +34,7 @@ namespace Shop.DataAccess.Repository
             {
                 dbSet = _context.Set<T>().Include<T>(property);
             }
-            return dbSet.Where(predicate).First();
+            return dbSet.Where(predicate).FirstOrDefault();
         }
 
         public IEnumerable<T> GetAll(string? includeProperties = null)
